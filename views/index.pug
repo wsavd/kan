@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta( name='viewport', content='width=device-width, initial-scale=1')
+  body
+    a(href='page1/?name=boss&age=100') Передать query параметр методом GET
+    form(action='/page1?name=boss&age=100', method='post')
+        input#email(name='email', value='', type='text')
+        |  
+        input#password(name='password', value='', type='password')
+        |  
+        button(type=submit) Передать query параметр методом POST
