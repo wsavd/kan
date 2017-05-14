@@ -1,0 +1,10 @@
+.column {
+  width: 100px;
+  background-color: lightgrey;
+  font-size: large;
+  float: left;
+  margin: 6px;
+  text-align: center;
+  border: medium solid black;
+  padding: 10px;
+}

@@ -3,11 +3,28 @@ html
   head
     meta(charset='utf-8')
     meta( name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css')
+    script(src='http://code.jquery.com/jquery-1.10.2.js')
+    script(src='http://code.jquery.com/ui/1.11.4/jquery-ui.js')
+    script(src='javascript/index.js')
+    link(rel='stylesheet', href='/css/index.css')
   body
-    a(href='page1/?name=boss&age=100') Передать query параметр методом GET
-    form(action='/page1?name=boss&age=100', method='post')
-        input#email(name='email', value='', type='text')
-        |  
-        input#password(name='password', value='', type='password')
-        |  
-        button(type=submit) Передать query параметр методом POST
+    #kanban-board
+      .column Сделать
+        .ui-state-default Item 1
+        .ui-state-default Item 2
+        .ui-state-default Item 3
+        .ui-state-default Item 4
+        .ui-state-default Item 5
+      .column В процессе
+        .ui-state-default Item 1
+        .ui-state-default Item 2
+        .ui-state-default Item 3
+        .ui-state-default Item 4
+        .ui-state-default Item 5
+      .column Готово
+        .ui-state-default Item 1
+        .ui-state-default Item 2
+        .ui-state-default Item 3
+        .ui-state-default Item 4
+        .ui-state-default Item 5
