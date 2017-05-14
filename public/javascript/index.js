@@ -23,6 +23,9 @@ console.log(cardJSON)//вывести JSON объект
 cardJS = JSON.parse(cardJSON);//преобразование в javascript объект
 console.log(cardJS)//JS объект
 */
+
+
+//ajax запрос
 var json = '{"order": ["01","02","03"]}';
 var data = JSON.parse(json);
 $(function() {
@@ -33,7 +36,10 @@ $(function() {
 
 $(function() {
      $( ".column" ).sortable({
-         connectWith: ".column" //взаимное перемещение между
+         connectWith: ".column", //взаимное перемещение между
+         update: function(){
+             console.log("update")
+         }
      }).disableSelection()
 	 /*
      $('<div id=buttonDiv><button>Получить порядок</button></div>').appendTo('body');
