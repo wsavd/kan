@@ -24,10 +24,26 @@ cardJS = JSON.parse(cardJSON);//преобразование в javascript об�
 console.log(cardJS)//JS объект
 */
 
-
-//ajax запрос
-var json = '{"order": ["01","02","03"]}';
+/*
+//ajax запрос на получение всех карточек
+$.ajax({
+    url: 'http://localhost:3078/board',
+    type: 'GET',
+    contentType: 'application/json',
+    success: function(result) {
+        $.each(result, function(index){
+        //<a id="58ee7bf57cb76c2e6477caca" href="/board/58ee7bf57cb76c2e6477caca">my</a>
+        $(".boards").append("<a class='board' id='"+ result[index]._id + "'href='/board/" + result[index]._id + "'>" + result[index].title + "</a>");
+        })
+    },
+    error: function (error) {
+        console.log(error);
+    }
+});
+*/
+var json = '{"order": ["1","2","3","4"]}';
 var data = JSON.parse(json);
+console.log(json);
 $(function() {
     for (var i=0; i<data.order.length; i++) {
         $(".column").append('<div class="ui-state-default" id="'+ data.order[i] +'">'+ i +'</div>');//вывести первый элемент массива вне зависимости от значения
@@ -36,9 +52,26 @@ $(function() {
 
 $(function() {
      $( ".column" ).sortable({
-         connectWith: ".column", //взаимное перемещение между
-         update: function(){
-             console.log("update")
+         connectWith: ".column", //взаимное перемещение карточек между колонками
+         update: function() {//когда карточка переместилась
+            //взять каждого ребенка .column и вывести его id
+            var order = $('.column').sortable("toArray")//узнаем новый порядок карточек для каждой колонки
+            var j = '{"order": ' + JSON.stringify(order) + '}';//{"order": ["01","02","03"]}//формируем JSON на основании новых данных
+            console.log(j)
+            $(".column > div").each( function(index, element) {
+                console.log("id:", $( element).attr("id"));
+            }); 
+            //обновление данных
+            /*
+            $.ajax({
+                url: 'http://localhost:8080/boardid',
+                type: 'PUT',
+                //contentType: 'application/json',
+                data: j,
+                success: function(response) {
+                    console.log("id saved");
+                }
+            });*/
          }
      }).disableSelection()
 	 /*
