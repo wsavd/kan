@@ -53,25 +53,29 @@ $.ajax({
         $("#inProgress").append('<div class="ui-state-default" id="'+ data.ready[i] +'">'+ i +'</div>');
     }
 });*/
-$(function(){
-            $.ajax({
-                url: 'http://localhost:3001/column',
-                type: 'GET',
+function fetch(){
+    $.ajax({
+        url: 'http://localhost:3001/column',
+        type: 'GET',
                 //contentType: 'application/json',
-            })
-            .done(function(response) {
-               $.each(response, function(index, element) {
-                    $('body').append($('<div>', {
-                text: element.title
-            }));
-        });
-            });
+    })
+    .done(function(response) {
+        //console.log(response)
+        //console.log(JSON.stringify(response))
+        //var obj = $.parseJSON(JSON.stringify(response));
+        console.log(response[0]);
+        console.log(response[1]);
+        /*for (var i=0; i<response.todo.length; i++) {
+            $("#toDo").append('<div class="ui-state-default" id="'+ response.todo[i] +'">'+ i +'</div>');//вывести первый элемент массива вне зависимости от значения
+        }
+        for(var i=0; i<data.inprogress.length; i++) {
+            $("#inProgress").append('<div class="ui-state-default" id="'+ data.inprogress[i] +'">'+ i +'</div>');
+        }*/
+    });
           //end update
-})
+}
 $(function() {
-     $('#get-button').on('click', function() {
-
-     });
+     fetch();
      $(".column").sortable({
           connectWith: ".column",
           /*start: function(event, ui) {
