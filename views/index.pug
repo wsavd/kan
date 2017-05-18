@@ -10,7 +10,15 @@ html
     link(rel='stylesheet', href='/css/index.css')
   body
     #kanban-board
-      .column
+      
+      //form(action='/a', method='post').column
+        input#email.form(name='email', value='', placeholder='Логин', type='text')
+        |  
+        input#password.form(name='password', value='', placeholder='Пароль', type='password')
+        |  
+        button(type=submit) Войти
+      .column#toDo Сделать
+      .column#inProgress В процессе
     //  
       .column Сделать
         #01.ui-state-default Item 1

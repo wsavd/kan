@@ -41,38 +41,95 @@ $.ajax({
     }
 });
 */
-var json = '{"order": ["1","2","3","4"]}';
-var data = JSON.parse(json);
-console.log(json);
-$(function() {
+//var json = '{"order": ["first","second","third","foutr"], "ready": ["1","2"]}';
+//var data = JSON.parse(json);
+//console.log("Начальная расстановка: "+json);
+/*$(function() {
+    //заполнение колонок данными с сервера
     for (var i=0; i<data.order.length; i++) {
-        $(".column").append('<div class="ui-state-default" id="'+ data.order[i] +'">'+ i +'</div>');//вывести первый элемент массива вне зависимости от значения
+        $("#toDo").append('<div class="ui-state-default" id="'+ data.order[i] +'">'+ i +'</div>');//вывести первый элемент массива вне зависимости от значения
     }
-});
-
+    for(var i=0; i<data.ready.length; i++) {
+        $("#inProgress").append('<div class="ui-state-default" id="'+ data.ready[i] +'">'+ i +'</div>');
+    }
+});*/
+$(function(){
+            $.ajax({
+                url: 'http://localhost:3001/column',
+                type: 'GET',
+                //contentType: 'application/json',
+            })
+            .done(function(response) {
+               $.each(response, function(index, element) {
+                    $('body').append($('<div>', {
+                text: element.title
+            }));
+        });
+            });
+          //end update
+})
 $(function() {
-     $( ".column" ).sortable({
-         connectWith: ".column", //взаимное перемещение карточек между колонками
-         update: function() {//когда карточка переместилась
+     $('#get-button').on('click', function() {
+
+     });
+     $(".column").sortable({
+          connectWith: ".column",
+          /*start: function(event, ui) {
+            columnIdStart = ui.item.parent().attr('id');//начальной колонки
+            console.log("id начальной колонки: "+columnIdStart);
+          },*/
+          update: function(event, ui){
+            //var data = $(this).sortable('toArray');
+            //console.log(data);
+            var toDo = $("#toDo").sortable("toArray");
+            var inProgress = $("#inProgress").sortable("toArray");
+            json = '{"toDo": '+JSON.stringify(toDo)+'}'//,"inProgress": '+JSON.stringify(inProgress)+'}';
+            console.log("После перетаскивания: "+json)
+            //var order = ui.item.index();
+            //console.log("Какой элемент по счету, начиная от 0: "+ order +" id тронутого элемента: "+ ui.item.attr('id'));
+            //columnIdEnd = ui.item.parent().attr('id');
+            //console.log("id конечной колонки: "+columnIdEnd)
+
+            //console.log(ui)
+            $.ajax({
+                url: 'http://localhost:3001/board',
+                type: 'POST',
+                //contentType: 'application/json',
+                data: JSON.stringify({json}),
+                dataType: "json",
+                contentType: "application/json",// //data: { a: "a"},
+            })
+            .done(function(response) {
+                //render
+                console.log(response);
+            });
+          }//end update
+
+         /*stop: function(event, ui) {
+             alert("Позиция элемента c id "+ui.item.attr('id')+": "+ui.item.index())//позиция элемента
+             console.log(ui.item.prev());*/
+             //alert(ui.item.attr('id'));
+             //когда карточка переместилась
+             //var data = $(this).sortable('toArray');
+             //console.log(data);
+			//$("#result").html("JSON:<pre>"+JSON.stringify(data)+"</pre>");
             //взять каждого ребенка .column и вывести его id
-            var order = $('.column').sortable("toArray")//узнаем новый порядок карточек для каждой колонки
-            var j = '{"order": ' + JSON.stringify(order) + '}';//{"order": ["01","02","03"]}//формируем JSON на основании новых данных
-            console.log(j)
-            $(".column > div").each( function(index, element) {
-                console.log("id:", $( element).attr("id"));
-            }); 
+            //$(".column > div").each(function(i, children) {
+                //var order = $('.column').sortable("toArray")//узнаем новый порядок карточек для каждой колонки
+                //var j = '{"order": ' + JSON.stringify(order) + ', ""}';//{"order": ["01","02","03"]}//формируем JSON на основании новых данных
+                //console.log(j)
+            //})
             //обновление данных
             /*
             $.ajax({
-                url: 'http://localhost:8080/boardid',
-                type: 'PUT',
+                url: 'http://localhost:3000',
+                type: 'post',
                 //contentType: 'application/json',
                 data: j,
                 success: function(response) {
                     console.log("id saved");
                 }
             });*/
-         }
      }).disableSelection()
 	 /*
      $('<div id=buttonDiv><button>Получить порядок</button></div>').appendTo('body');
